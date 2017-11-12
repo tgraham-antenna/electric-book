@@ -30,5 +30,6 @@ To use the Electric Book template on your machine, you need to have installed:
 - [Node.js](https://nodejs.org) and [GraphicsMagick](http://www.graphicsmagick.org/) (to create multiformat images)
 - [Pandoc](http://pandoc.org/) (for Word export)
 - [Cordova](https://cordova.apache.org), [Android Studio](https://developer.android.com/studio), and (on OSX) [XCode](https://developer.apple.com/xcode/) (for building ebook apps)
+- [diff-pdf](https://vslavik.github.io/diff-pdf/) (for running tests, like checking where changes affect PDF layout)
 
 And of course a good editor like [Sublime](https://www.sublimetext.com/), [Brackets](http://brackets.io/) or [Atom](https://atom.io/).
