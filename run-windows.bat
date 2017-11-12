@@ -7,21 +7,49 @@ title Electric Book
 
 :: Start and reset a bunch of variables
 :begin
-set process=0
-set bookfolder=
-set subdirectory=
-set config=
-set imageset=
-set imageconfig=
-set repeat=
-set baseurl=
-set location=
-set firstfile=
-set epubIncludeMathJax=
-set print-pdf-mathjax=
-set screen-pdf-mathjax=
-set webmathjax=
-set appmathjax=
+    set process=0
+    set bookfolder=
+    set subdirectory=
+    set config=
+    set imageset=
+    set imageconfig=
+    set repeat=
+    set baseurl=
+    set location=
+    set firstfile=
+    set epubIncludeMathJax=
+    set print-pdf-mathjax=
+    set screen-pdf-mathjax=
+    set webmathjax=
+    set appmathjax=
+
+:: Check for arguments, so that we can ask:
+:: if not defined arguments
+:: to skip asking for user input when we're
+:: running automated tests or doing quick outputs.
+:checkForArgs
+    if "%~1"=="" set arguments=
+    if "%~1"=="printpdf" (
+        set arguments=printpdf
+        set "bookfolder=%~2"
+        set "subdirectory=%~3"
+        set "config=%~4"
+        set "print-pdf-mathjax=%~5"
+        set "repeat=%~6"
+        echo Creating print-PDF with user options: %~2, %~3, %~4, %~5, %~6 ...
+        goto :printpdf
+    )
+    if "%~1"=="epub" (
+        set arguments=epub
+        set "bookfolder=%~2"
+        set "subdirectory=%~3"
+        set "config=%~4"
+        set "epubIncludeMathJax=%~5"
+        set "epubValidation=%~6"
+        set "repeat=%~7"
+        echo Creating epub with user options: %~2, %~3, %~4, %~5, %~6, %~7 ...
+        goto :epub
+    )
 
 :: Ask what we're going to be doing.
 echo Electric Book options
@@ -37,7 +65,7 @@ echo 7  Convert source images to output formats
 echo 8  Install or update dependencies
 echo x  Exit
 echo.
-set /p process=Enter a number and hit return. 
+if not defined arguments set /p process=Enter a number and hit return. 
     if "%process%"=="1" goto printpdf
     if "%process%"=="2" goto screenpdf
     if "%process%"=="3" goto website
@@ -65,15 +93,15 @@ set /p process=Enter a number and hit return.
 
         :: Ask user which folder to process
         :printpdfchoosefolder
-            set /p bookfolder=Which book folder are we processing? (Hit enter for default 'book' folder.) 
+            if not defined arguments set /p bookfolder=Which book folder are we processing? (Hit enter for default 'book' folder.) 
             if "%bookfolder%"=="" set bookfolder=book
             if not exist "%bookfolder%\*.*" echo Sorry, %bookfolder% doesn't exist. Try again. && goto printpdfchoosefolder
             echo.
 
         :: Ask if we're outputting the files from a subdirectory
         :printpdfwhatsubdirectory
-            set /p subdirectory=If you're outputting files in a subdirectory (e.g. a translation), type its name. Otherwise, hit enter. 
-            if not exist "%bookfolder%\%subdirectory%\*.*" echo Sorry, Sorry, %bookfolder%\%subdirectory% doesn't exist. Try again. doesn't exist. && goto printpdfwhatsubdirectory
+            if not defined arguments set /p subdirectory=If you're outputting files in a subdirectory (e.g. a translation), type its name. Otherwise, hit enter. 
+            if not exist "%bookfolder%\%subdirectory%\*.*" echo Sorry, %bookfolder%\%subdirectory% doesn't exist. Try again. doesn't exist. && goto printpdfwhatsubdirectory
             echo.
 
         :: Ask the user to add any extra Jekyll config files, e.g. _config.images.print-pdf.yml
@@ -84,12 +112,12 @@ set /p process=Enter a number and hit return.
             echo _configs/_config.myconfig.yml
             echo If not, just hit return.
             echo.
-            set /p config=
+            if not defined arguments set /p config=
             echo.
 
         :: Ask if we're processing MathJax, so we know whether to pass the HTML through PhantomJS first
             echo Does this book use MathJax? If yes, enter y. If no, just hit enter. 
-            set /p print-pdf-mathjax=
+            if not defined arguments set /p print-pdf-mathjax=
 
         :: Loop back to this point to refresh the build and PDF
         :printpdfrefresh
@@ -154,6 +182,9 @@ set /p process=Enter a number and hit return.
 
             :: Navigate back to where we began.
             cd ..\
+
+        :: If we're running on arguments, leave the subroutine
+        if defined arguments exit /b
 
         :: Let the user easily refresh the PDF by running jekyll b and prince again
         set repeat=
@@ -369,20 +400,20 @@ set /p process=Enter a number and hit return.
         
         :: Ask user which folder to process
         :epubchoosefolder
-            set /p bookfolder=Which book folder are we processing? (Hit enter for default 'book' folder.) 
+            if not defined arguments set /p bookfolder=Which book folder are we processing? (Hit enter for default 'book' folder.) 
             if "%bookfolder%"=="" set bookfolder=book
             if not exist "%bookfolder%\*.*" echo Sorry, %bookfolder% doesn't exist. Try again. && goto epubchoosefolder
         
         :: Ask if we're outputting the files from a subdirectory
         :epubwhatsubdirectory
             echo If you're outputting files in a subdirectory (e.g. a translation), type its name. Otherwise, hit enter. 
-            set /p subdirectory=
+            if not defined arguments set /p subdirectory=
             if not exist "%bookfolder%\%subdirectory%\*.*" echo Sorry, %bookfolder%\%subdirectory% doesn't exist. Try again. doesn't exist. && goto epubwhatsubdirectory
         
         :: Ask whether to include boilerplate mathjax directory
         :epubAskToIncludeMathJax
             echo Include mathjax? Enter y for yes (or hit enter for no).
-            set /p epubIncludeMathJax=
+            if not defined arguments set /p epubIncludeMathJax=
             if "%epubIncludeMathJax%"=="n" set epubIncludeMathJax=
             if not "%epubIncludeMathJax%"=="y" if not "%epubIncludeMathJax%"=="" goto epubAskToIncludeMathJax
 
@@ -392,12 +423,12 @@ set /p process=Enter a number and hit return.
             echo Enter filenames (including any relative path), comma separated, no spaces. E.g.
             echo _configs/_config.myconfig.yml
             echo If not, just hit return.
-            set /p config=
+            if not defined arguments set /p config=
 
         :: Ask about validation
         :epubAskAboutValidation
             echo Shall we try to run EpubCheck when we're done? Hit enter for yes, or any key and enter for no.
-            set /p epubValidation=
+            if not defined arguments set /p epubValidation=
 
         :: Loop back to this point to refresh the build again
         :epubrefresh
@@ -654,6 +685,9 @@ set /p process=Enter a number and hit return.
 
         :: Navigate back to where we began
         cd "%location%"
+
+        :: If we're running on arguments, leave the subroutine
+        if defined arguments exit /b
 
         :: Let the user easily run that again
         set repeat=
