@@ -680,8 +680,10 @@ if not defined arguments set /p process=Enter a number and hit return.
         :skipEpubValidation
 
         :: Open file explorer to show the epub
+        if "%arguments%"=="epub" goto skipOpeningFolder
         echo Opening folder containing your epub...
         %SystemRoot%\explorer.exe "%location%_output"
+        :skipOpeningFolder
 
         :: Navigate back to where we began
         cd "%location%"
