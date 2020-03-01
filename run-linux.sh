@@ -432,13 +432,13 @@ You may need to reload the web page once this server is running."
 			echo "Renaming .html to .xhtml..."
 			cd "$location"
 			if [ "$epubsubdirectory" = "" ]; then
-				gulp epub:xhtmlLinks
-				gulp epub:xhtmlFiles
-				gulp epub:cleanHtmlFiles
+				gulp epubXhtmlLinks
+				gulp epubXhtmlFiles
+				gulp epubCleanHtmlFiles
 			else
-				gulp epub:xhtmlLinks --language $epubsubdirectory
-				gulp epub:xhtmlFiles --language $epubsubdirectory
-				gulp epub:cleanHtmlFiles --language $epubsubdirectory
+				gulp epubXhtmlLinks --language $epubsubdirectory
+				gulp epubXhtmlFiles --language $epubsubdirectory
+				gulp epubCleanHtmlFiles --language $epubsubdirectory
 			fi
 			# Now to create a compressed epub.
 			# First, though, if they exist, remove previous .zip and .epub files that we will replace.

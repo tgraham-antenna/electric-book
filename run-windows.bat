@@ -627,12 +627,12 @@ set /p process=Enter a number and hit return.
             echo Renaming .html to .xhtml...
 
             cd %location%
-            if "%subdirectory%"=="" call gulp epub:xhtmlLinks
-            if "%subdirectory%"=="" call gulp epub:xhtmlFiles
-            if "%subdirectory%"=="" call gulp epub:cleanHtmlFiles
-            if not "%subdirectory%"=="" call gulp epub:xhtmlLinks --language %subdirectory%
-            if not "%subdirectory%"=="" call gulp epub:xhtmlFiles --language %subdirectory%
-            if not "%subdirectory%"=="" call gulp epub:cleanHtmlFiles --language %subdirectory%
+            if "%subdirectory%"=="" call gulp epubXhtmlLinks
+            if "%subdirectory%"=="" call gulp epubXhtmlFiles
+            if "%subdirectory%"=="" call gulp epubCleanHtmlFiles
+            if not "%subdirectory%"=="" call gulp epubXhtmlLinks --language %subdirectory%
+            if not "%subdirectory%"=="" call gulp epubXhtmlFiles --language %subdirectory%
+            if not "%subdirectory%"=="" call gulp epubCleanHtmlFiles --language %subdirectory%
             cd %location%/_site/epub
 
         :: Now to zip the epub files. Important: mimetype first.
