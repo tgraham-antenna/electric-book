@@ -83,3 +83,6 @@ have different behaviour for web or app. {% endcomment %}
     {% include_relative page-reference.js %}
 
 {% endif %}
+
+{% comment %} Add a check for automated testing {% endcomment %}
+{% include_relative bundle-check.js %}
