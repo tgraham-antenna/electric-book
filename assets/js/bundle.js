@@ -26,7 +26,9 @@ layout: null
     {% include_relative select-list.js %}
     {% include_relative tables.js %}
     {% include_relative footnote-popups.js %}
+    {% include_relative slides.js %}
     {% include_relative show-hide.js %}
+    {% include_relative copy-to-clipboard.js %}
 
     {% if site.data.settings.web.svg.inject == true %}
         {% include_relative vendor/svg-inject.min.js %}
@@ -84,5 +86,9 @@ have different behaviour for web or app. {% endcomment %}
 
 {% endif %}
 
-{% comment %} Add a check for automated testing {% endcomment %}
+{% if site.output == "epub" %}
+    {% include_relative show-hide.js %}
+{% endif %}
+
+{% comment %} Add a check for automated testing. Must come last. {% endcomment %}
 {% include_relative bundle-check.js %}
