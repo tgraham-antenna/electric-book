@@ -30,9 +30,14 @@ These values can be overridden in _data/locales.yml for translations.
 {% capture project-logo %}{{ site.data.meta.project.logo }}{% endcapture %}
 {% capture project-image %}{{ site.data.meta.project.image }}{% endcapture %}
 {% capture project-credit %}{{ site.data.meta.project.credit }}{% endcapture %}
-{% capture project-language %}{{ site.data.meta.project.language }}{% endcapture %}
 {% capture project-app-id %}{{ site.data.meta.project.app-id }}{% endcapture %}
 {% capture project-version %}{{ site.data.meta.project.version }}{% endcapture %}
+
+{% if site.data.meta.project.language and site.data.meta.project.language != "" %}
+    {% capture project-language %}{{ site.data.meta.project.language }}{% endcapture %}
+{% else %}
+    {% capture project-language %}{{ site.language }}{% endcapture %}
+{% endif %}
 
 {% comment %}Also use project language as default, fallback language,
 which will be overridden below if we're on book pages...{% endcomment %}
