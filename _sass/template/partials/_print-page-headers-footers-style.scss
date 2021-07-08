@@ -8,12 +8,12 @@
   letter-spacing: $header-letter-spacing;
 }
 
-@mixin header-position() {
+@mixin header-position($alignment: $header-text-align) {
   vertical-align: top;
   line-height: 1;
   margin-top: $header-space-from-top;
   margin-bottom: $header-space-from-text;
-  text-align: $header-text-align;
+  text-align: $alignment;
 }
 
 @mixin footer-style() {
@@ -25,12 +25,12 @@
   letter-spacing: $footer-letter-spacing;
 }
 
-@mixin footer-position() {
+@mixin footer-position($alignment: $footer-text-align) {
   vertical-align: bottom;
   line-height: 1;
   margin-top: $footer-space-from-text;
   margin-bottom: $footer-space-from-bottom;
-  text-align: $footer-text-align;
+  text-align: $alignment;
 }
 
 @mixin left-margin-style() {
@@ -85,11 +85,11 @@ $print-page-headers-footers-style: true !default;
     }
     @top-right {
       @include header-style();
-      @include header-position();
+      @include header-position('outside');
     }
     @top-left {
       @include header-style();
-      @include header-position();
+      @include header-position('outside');
     }
     @top-right-corner {
       @include header-style();
@@ -105,11 +105,11 @@ $print-page-headers-footers-style: true !default;
     }
     @bottom-left {
       @include footer-style();
-      @include footer-position();
+      @include footer-position('outside');
     }
     @bottom-right {
       @include footer-style();
-      @include footer-position();
+      @include footer-position('outside');
     }
     @bottom-left-corner {
       @include footer-style();
